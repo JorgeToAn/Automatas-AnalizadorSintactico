@@ -1,0 +1,40 @@
+package com.proyecto;
+
+import java_cup.runtime.*;
+
+class Parser;
+
+/*
+* ==============================
+*   DEFINIR TERMINALES AQUI
+*   Ejemplo:
+*   terminal ENTERO;
+* ==============================
+*/
+
+/*
+* ==============================
+*   DEFINIR NO TERMINALES AQUI
+*   Ejemplo:
+*   non terminal bloqvars;
+* ==============================
+*/
+
+/*
+* ==============================
+*   DEFINIR PRECEDENCIAS AQUI
+*   Si se necesitan
+*   Ejemplo:
+*   precedence left MULTIPLICA;
+* ==============================
+*/
+
+/*
+* =======================================================
+*   DEFINIR PRODUCCIONES
+*   Especifica como se transfor-
+*   maran los no terminales
+*   Ejemplo:
+*   bloqvars    ::= ENCABEZADOVAR RESINI DECLARVAR RESFIN
+* =======================================================
+*/
