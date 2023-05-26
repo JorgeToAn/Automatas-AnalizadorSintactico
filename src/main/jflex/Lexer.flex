@@ -56,7 +56,7 @@ id              =   [a-zA-ZáÁéÉíÍóÓúÚüÜ][a-zA-ZáÁéÉíÍóÓúÚ�
 
 // OPERADORES MATEMATICOS
 suma          =   "+"
-resta           =   "-"
+resta         =   "-"
 mul           =   "*"
 div           =   "/"
 mod           =   "%"
@@ -73,7 +73,7 @@ asgMod          =   "%="
 
 // OPERADORES DE COMPARACION
 igual           =   "=="
-desigual         =   "!="
+desigual        =   "!="
 mayor           =   ">"
 menor           =   "<"
 mayorIgual      =   ">="
