@@ -85,14 +85,14 @@ or              =   "_O_"
 not             =   "~"
 
 // SEPARADORES
-punto           =   "."
-2puntos         =   ":"
-coma            =   ","
-izqParen        =   "("
-derParen        =   ")"
+// punto           =   "."
+// 2puntos         =   ":"
+// coma            =   ","
+// izqParen        =   "("
+// derParen        =   ")"
 
 // ESPACIO BLANCO Y COMENTARIOS
-comentario      =   "#".*\n
+comentario      =   #.*\n
 whitespace      =   \t|\f|" "|\r|\n
 
 %{
@@ -180,11 +180,11 @@ whitespace      =   \t|\f|" "|\r|\n
 {or}                    { return symbol(ParserSym.OR, yytext()); }
 {not}                   { return symbol(ParserSym.NOT, yytext()); }
 
-{punto}                 { return symbol(ParserSym.PUNTO, yytext()); }
-{2puntos}               { return symbol(ParserSym.DOSPUNTOS, yytext()); }
-{coma}                  { return symbol(ParserSym.COMA, yytext()); }
-{izqParen}              { return symbol(ParserSym.I_PAREN, yytext()); }
-{derParen}              { return symbol(ParserSym.D_PAREN, yytext()); }
+"."                     { return symbol(ParserSym.PUNTO, yytext()); }
+":"                     { return symbol(ParserSym.DOSPUNTOS, yytext()); }
+","                     { return symbol(ParserSym.COMA, yytext()); }
+"("                     { return symbol(ParserSym.I_PAREN, yytext()); }
+")"                     { return symbol(ParserSym.D_PAREN, yytext()); }
 
 {comentario}            { /* IGNORAR */ }
 {whitespace}            { /* IGNORAR */ }
