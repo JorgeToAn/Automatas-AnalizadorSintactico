@@ -4,6 +4,7 @@ import java_cup.runtime.*;
 
 class Parser;
 
+
 //INICIO TERMINALES
 terminal R_PRINCIPAL, R_FUNCS, R_FUNC, R_PROCS, R_PROC, R_VARS, R_VAR, R_INICIO, R_FIN, R_ENTERO, R_DECIMAL, R_SIMBOLO, R_TEXTO, R_LOGICO, R_FECHAHORA, R_FECHA, R_HORA, R_CURP, R_RFC, R_DEVOLVER, R_COMO, R_SI, R_ENTONCES, R_SINO, R_PARA, R_MIENTRAS, R_ROMPER;
 terminal ENTERO, DECIMAL, SIMBOLO, TEXTO, FALSO, VERDADERO, FECHAHORA, FECHA, HORA, CURP, RFC;
@@ -23,6 +24,10 @@ terminal PUNTO, DOSPUNTOS, COMA, I_PAREN, D_PAREN;
 * ==============================
 */
 
+//INICIO NO TERMINALES BLOQUE PRINCIPAL
+non terminal bloqPrin ,instrucciones, instruccionSimple, bloqInstrucciones, param;
+//FIN NO TERMINALES BLOQUE PRINCIPAL
+
 /*
 * ==============================
 *   DEFINIR PRECEDENCIAS AQUI
@@ -41,3 +46,19 @@ terminal PUNTO, DOSPUNTOS, COMA, I_PAREN, D_PAREN;
 *   bloqvars    ::= ENCABEZADOVAR RESINI DECLARVAR RESFIN
 * =======================================================
 */
+
+//INICIO PRODUCCIONES BLOQUE PRINCIPAL
+bloqPrin ::= R_PRINCIPAL DOSPUNTOS bloqInstrucciones | error;
+bloqInstrucciones ::= R_INICIO PUNTO instrucciones R_FIN PUNTO | error;
+instrucciones ::= instruccionSimple | instruccionSimple instrucciones;
+param ::= ID | ID COMA param | error; 
+instruccionSimple ::= ID ASG ENTERO
+                    | ID ASG TEXTO
+                    | ID ASG FECHAHORA
+                    | ID ASG FECHA
+                    | ID ASG HORA
+                    | ID ASG CURP
+                    | ID ASG RFC
+                    | ID I_PAREN param D_PAREN
+                    | error;
+//FIN PRODUCCIONES BLOQUE PRINCIPAL
