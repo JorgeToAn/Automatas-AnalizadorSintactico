@@ -165,7 +165,7 @@ whitespace      =   [\t\f \r\n]+
 {asignacion}            { return symbol(ParserSym.ASG, yytext()); }
 {asgSuma}               { return symbol(ParserSym.ASG_SUMA, yytext()); }
 {asgRes}                { return symbol(ParserSym.ASG_RESTA, yytext()); }
-{asgMul}                { return symbol(ParserSym.ASG_NUL, yytext()); }
+{asgMul}                { return symbol(ParserSym.ASG_MUL, yytext()); }
 {asgDiv}                { return symbol(ParserSym.ASG_DIV, yytext()); }
 {asgMod}                { return symbol(ParserSym.ASG_MOD, yytext()); }
 
