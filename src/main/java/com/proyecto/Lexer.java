@@ -960,7 +960,7 @@ public class Lexer implements java_cup.runtime.Scanner {
       else {
         switch (zzAction < 0 ? zzAction : ZZ_ACTION[zzAction]) {
           case 1:
-            { throw new Error("Caracter ilegal <" + yytext() + ">\n Linea: " + yyline() + "Columna: " + yycolumn() );
+            { throw new Error("Caracter ilegal <" + yytext() + ">\n Linea: " + yyline + "Columna: " + yycolumn );
             }
           // fall through
           case 69: break;

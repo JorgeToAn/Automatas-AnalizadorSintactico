@@ -189,4 +189,4 @@ whitespace      =   [\t\f \r\n]+
 {comentario}            { /* IGNORAR */ }
 {whitespace}            { /* IGNORAR */ }
 
-[^] { throw new Error("Caracter ilegal <" + yytext() + ">\n Linea: " + yyline() + "Columna: " + yycolumn() ); }
+[^] { throw new Error("Caracter ilegal <" + yytext() + ">\n Linea: " + yyline + "Columna: " + yycolumn ); }
