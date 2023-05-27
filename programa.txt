@@ -1,0 +1,29 @@
+variables :
+	variable edad entero
+	variable nombre texto
+	variable fecha_nac fecha-hora
+	variable mi_curp curp
+codigo-principal :
+	inicio .
+		edad = 25
+		nombre = "Juan"
+		fecha_nac = 1998-02-20T13:00:00
+		mi_curp = JUSA980220HBCNLRA9
+		validar_edad ( mensaje , edad )
+	fin .
+funciones :
+	funcion saludar ( nombre )
+		inicio :
+			imprimir ( "Hola, " + nombre )
+			devolver
+		fin :
+procedimientos :
+	procedimiento validar_edad ( mensaje , edad )
+		inicio :
+			# Esto es un comentario:
+			si edad > 18 entonces
+			imprimir ( "Eres mayor de edad" )
+			sino
+			imprimir ( "Eres menor de edad" )
+			saludar ( nombre )
+		fin :
