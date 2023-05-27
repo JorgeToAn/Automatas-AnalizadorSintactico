@@ -92,8 +92,8 @@ not             =   "~"
 // derParen        =   ")"
 
 // ESPACIO BLANCO Y COMENTARIOS
-comentario      =   #.*\n
-whitespace      =   \t|\f|" "|\r|\n
+comentario      =   "#" [^\r\n]* [\r\n]?
+whitespace      =   [\t\f \r\n]+
 
 %{
     StringBuffer string = new StringBuffer();
