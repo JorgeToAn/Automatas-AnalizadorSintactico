@@ -25,6 +25,10 @@ DOSPUNTOS,COMA,I_PAREN,D_PAREN;
 * ==============================
 */
 
+//INICIO NO TERMINALES BLOQUE PRINCIPAL
+non terminal bloqPrin ,instrucciones, instruccionSimple, bloqInstrucciones, param;
+//FIN NO TERMINALES BLOQUE PRINCIPAL
+
 /*
 * ==============================
 *   DEFINIR PRECEDENCIAS AQUI
