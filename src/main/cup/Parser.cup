@@ -4,13 +4,16 @@ import java_cup.runtime.*;
 
 class Parser;
 
-/*
-* ==============================
-*   DEFINIR TERMINALES AQUI
-*   Ejemplo:
-*   terminal ENTERO;
-* ==============================
-*/
+//INICIO TERMINALES
+terminal R_PRINCIPAL, R_FUNCS, R_FUNC, R_PROCS, R_PROC, R_VARS, R_VAR, R_INICIO, R_FIN, R_ENTERO, R_DECIMAL, R_SIMBOLO, R_TEXTO, R_LOGICO, R_FECHAHORA, R_FECHA, R_HORA, R_CURP, R_RFC, R_DEVOLVER, R_COMO, R_SI, R_ENTONCES, R_SINO, R_PARA, R_MIENTRAS, R_ROMPER;
+terminal ENTERO, DECIMAL, SIMBOLO, TEXTO, FALSO, VERDADERO, FECHAHORA, FECHA, HORA, CURP, RFC;
+terminal ID;
+terminal SUMA, RESTA, MUL, DIV, MOD, INC, DEC;
+terminal ASG, ASG_SUMA, ASG_RESTA, ASG_NUL, ASG_DIV, ASG_MOD;
+terminal IGUAL, DESIGUAL, MAYOR, MENOR, MAY_IG, MEN_IG;
+terminal AND, OR, NOT;
+terminal PUNTO, DOSPUNTOS, COMA, I_PAREN, D_PAREN;
+//FIN TERMINALES
 
 /*
 * ==============================
