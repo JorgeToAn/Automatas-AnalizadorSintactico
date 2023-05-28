@@ -7,9 +7,17 @@ class Parser;
 parser code
 {:
     public void syntax_error(Symbol s) {
-        report_error("Error de sintaxis en linea " + (s.right + 1) + ", columna " + (s.left + 1) + ", \"" + s.value +"\"\n", null);
+        report_error("Error de sintaxis en linea " + (s.left + 1) + ", columna " + (s.right + 1) + ", \"" + s.value +"\"\n", null);
     }
 :}
+
+/*
+* ==============================
+*   DEFINIR TERMINALES AQUI
+*   Ejemplo:
+*   terminal ENTERO;
+* ==============================
+*/
 
 //INICIO TERMINALES
 terminal R_PRINCIPAL, R_FUNCS, R_FUNC, R_PROCS, R_PROC, R_VARS, R_VAR, R_INICIO, R_FIN, R_ENTERO, R_DECIMAL, R_SIMBOLO, R_TEXTO, R_LOGICO, R_FECHAHORA, R_FECHA, R_HORA, R_CURP, R_RFC, R_DEVOLVER, R_COMO, R_SI, R_ENTONCES, R_SINO, R_PARA, R_MIENTRAS, R_ROMPER;
@@ -30,49 +38,63 @@ terminal PUNTO, DOSPUNTOS, COMA, I_PAREN, D_PAREN;
 * ==============================
 */
 
+//INICIO NO TERMINALES
 //INICIO NO TERMINALES BLOQUE PROGRAMA
 non terminal programa;
 //FIN NO TERMINALES BLOQUE PROGRAMA
 
-//INICIO NO TERMINALES BLOQUE VARIABLES
-non terminal bloqvars , D_VAR, TIPO_D;
-//FIN NO TERMINALES BLOQUE VARIABLES
-
-//INICIO NO TERMINALES FUNCIONES PROCEDIMIENTOS
-non terminal param,funcProc;
-//FIN NO TERMINALES FUNCIONES PROCEDIMIENTOS
-
-//INICIO NO TERMINALES BLOQUE PRINCIPAL
-non terminal bloqPrin ,instrucciones, instruccionSimple, bloqInstrucciones;
-//FIN NO TERMINALES BLOQUE PRINCIPAL
-
-//INICIO NO TERMINALES BLOQUE PROCEDIMIENTOS
-non terminal bloqProc, declarProc, instruccionesProc, instruccionSimpleProc, bloqInstruccionesProc, instruccionSINOproc;
-//FIN NO TERMINALES BLOQUE PROCEDIMIENTOS
+//INICIO NO TERMINALES LITERALES
+non terminal LiteralHorario, Literal, LiteralAritmetico;
+//FIN NO TERMINALES LITERALES
 
 //INICIO NO TERMINALES OPERACION
-non terminal OperadorAritmetico, Operacion;
+non terminal OperadorAritmetico, Operacion, OperacionConstante;
 //FIN NO TERMINALES OPERACION
 
 //INICIO NO TERMINALES CONCATENACION
 non terminal Concatenacion;
 //FIN NO TERMINALES CONCATENACION
 
-//INICIO NO TERMINALES OPERACIONLOGICA
-non terminal OperacionLogica, ExpresionLogica, Comparacion, OperadorComparacion, Expresion, Booleano, OperadorLogico;
-//FIN NO TERMINALES OPERACIONLOGICA
+//INICIO NO TERMINALES FUNCIONES PROCEDIMIENTOS
+non terminal param,funcProc;
+//FIN NO TERMINALES FUNCIONES PROCEDIMIENTOS
 
 //INICIO NO TERMINALES ASIGNACION
 non terminal Asignacion, OperadorAsignacion, ExpresionAsignacion;
 //FIN NO TERMINALES ASIGNACION
 
-//INICIO NO TERMINALES LITERALES
-non terminal LiteralHorario, Literal, LiteralAritmetico;
-//FIN NO TERMINALES LITERALES
+//INICIO NO TERMINALES OPERACIONLOGICA
+non terminal OperacionLogica, ExpresionLogica, OperadorComparacion, Expresion, Booleano, OperadorLogico;
+//FIN NO TERMINALES OPERACIONLOGICA
 
 //INICIO NO TERMINALES SIENTONCESSINO
 non terminal SISINO, SENTENCIA, REGLA_SINO, SI;
-//INICIO NO TERMINALES SIENTONCESSINO
+//FIN NO TERMINALES SIENTONCESSINO
+
+//INICIO NO TERMINALES BUCLEMIENTRAS
+non terminal BucleMientras, BloqueInstruccionesMientras, instruccionesMientras, instruccionMientrasSimple;
+//FIN NO TERMINALES BUCLEMIENTRAS
+
+//INICIO NO TERMINALES BUCLEPARA
+nonterminal BuclePara, BloqueInstruccionesPara, instruccionesPara, instruccionParaSimple;
+//FIN NO TERMINALES BUCLEPARA
+
+//INICIO NO TERMINALES BLOQUE VARIABLES
+non terminal bloqvars , D_VAR, TIPO_D;
+//FIN NO TERMINALES BLOQUE VARIABLES
+
+//INICIO NO TERMINALES BLOQUE PRINCIPAL
+non terminal bloqPrin ,instrucciones, instruccionSimple, bloqInstrucciones;
+//FIN NO TERMINALES BLOQUE PRINCIPAL
+
+//INICIO NO TERMINALES FUNCIONES
+non terminal bloqFunc, declarFunc, instruccionesFunc, instruccionSimpleFunc, instruccionSINOfunc, DEVOLVER;
+//FIN NO TERMINALES FUNCIONES
+
+//INICIO NO TERMINALES BLOQUE PROCEDIMIENTOS
+non terminal bloqProc, declarProc, instruccionesProc, instruccionSimpleProc, instruccionSINOproc;
+//FIN NO TERMINALES BLOQUE PROCEDIMIENTOS
+//FIN NO TERMINALES
 
 /*
 * ==============================
@@ -83,9 +105,10 @@ non terminal SISINO, SENTENCIA, REGLA_SINO, SI;
 *   importante cuando se manejan expresiones matematicas
 * ==============================
 */
-
+//INICIO PRECEDENCIAS
 precedence left SUMA, RESTA, INC, DEC;
 precedence left MUL, DIV, MOD;
+//FIN PRECEDENCIAS
 
 /*
 * =======================================================
@@ -96,196 +119,302 @@ precedence left MUL, DIV, MOD;
 * =======================================================
 */
 
+//INICIO PRODUCCIONES
 //INICIO PRODUCCIONES PROGRAMA
-programa ::= bloqvars bloqPrin bloqProc
-            | error
-            ;
+programa ::=                    bloqvars bloqPrin bloqFunc bloqProc
+                                | error
+                                ;
 //FIN PRODUCCIONES PROGRAMA
 
 //INICIO PRODUCCIONES LITERALES
-LiteralAritmetico ::= ENTERO
-                    | DECIMAL
-                    | SIMBOLO
-                    ;
+LiteralAritmetico ::=           ENTERO
+                                | DECIMAL
+                                | SIMBOLO
+                                ;
 
-LiteralHorario ::= FECHAHORA
-                | FECHA
-                | HORA
-                ;
+LiteralHorario ::=              FECHAHORA
+                                | FECHA
+                                | HORA
+                                ;
 
-Literal ::= LiteralAritmetico
-	        | TEXTO
-	        | Booleano
-	        ;
+Literal ::=                     LiteralAritmetico
+	                            | TEXTO
+	                            | Booleano
+	                            ;
 //FIN PRODUCCIONES LITERALES
 
 //INICIO PRODUCCIONES OPERACION
-OperadorAritmetico ::= SUMA
-                    | RESTA
-                    | MUL
-                    | DIV
-                    | MOD
-                    ;
-Operacion ::= Operacion OperadorAritmetico Operacion
-            | I_PAREN Operacion D_PAREN
-            | Operacion INC
-            | Operacion DEC
-            | LiteralAritmetico
-            ;
+OperadorAritmetico ::=          SUMA
+                                | RESTA
+                                | MUL
+                                | DIV
+                                | MOD
+                                ;
+
+OperacionConstante ::=          ID OperadorAritmetico ID
+                                | ID INC
+                                | ID DEC
+                                ;  
+
+Operacion ::=                   Operacion OperadorAritmetico Operacion
+                                | I_PAREN Operacion D_PAREN
+                                | Operacion INC
+                                | Operacion DEC
+                                | LiteralAritmetico
+                                | OperacionConstante
+                                ;
 //FIN PRODUCCIONES OPERACION
 
 //INICIO PRODUCCIONES CONCATENACION
-Concatenacion ::= ID SUMA Concatenacion
-                | TEXTO SUMA Concatenacion
-                | ID
-                | TEXTO
-                ;
+Concatenacion ::=               ID SUMA Concatenacion
+                                | TEXTO SUMA Concatenacion
+                                | ID
+                                | TEXTO
+                                | ID SUMA I_PAREN Concatenacion D_PAREN
+                                | TEXTO SUMA I_PAREN Concatenacion D_PAREN
+                                | ID SUMA I_PAREN Operacion D_PAREN
+                                | TEXTO SUMA I_PAREN Operacion D_PAREN
+                                ;
 //FIN PRODUCCIONES CONCATENACION
 
 //INICIO PRODUCCIONES FUNCIONES PROCEDIMIENTOS
-param ::= ID
-        | ID COMA param
-        | TEXTO
-        | TEXTO COMA param
-        | TEXTO SUMA param
-        | ID SUMA param
-        | error;
+param ::=                       ID
+                                | ID COMA param
+                                | TEXTO
+                                | TEXTO COMA param
+                                | TEXTO SUMA param
+                                | ID SUMA param
+                                | Operacion
+                                ;
 
-funcProc ::= ID I_PAREN param D_PAREN
-            | ID I_PAREN D_PAREN
-            ;
+funcProc ::=                    ID I_PAREN param D_PAREN
+                                | ID I_PAREN D_PAREN
+                                ;
 //FIN PRODUCCIONES FUNCIONES PROCEDIMIENTOS
 
 //INICIO PRODUCCIONES ASIGNACION
-Asignacion ::= OperadorAsignacion ExpresionAsignacion
-		    ;
+Asignacion ::=                  OperadorAsignacion ExpresionAsignacion
+		                        ;
 
-OperadorAsignacion ::= ASG
-                    | ASG_SUMA
-			        | ASG_RESTA
-			        | ASG_MUL
-			        | ASG_DIV
-			        | ASG_MOD
-			        ;
+OperadorAsignacion ::=          ASG
+                                | ASG_SUMA
+			                    | ASG_RESTA
+			                    | ASG_MUL
+			                    | ASG_DIV
+			                    | ASG_MOD
+			                    ;
 
-ExpresionAsignacion ::= LiteralAritmetico
-            | Booleano
-            | LiteralHorario
-            | CURP
-            | RFC
-            | Concatenacion
-            | OperacionLogica
-            ;
+ExpresionAsignacion ::=         LiteralAritmetico
+                                | Booleano
+                                | LiteralHorario
+                                | CURP
+                                | RFC
+                                | Concatenacion
+                                | OperacionLogica
+                                ;
 //INICIO PRODUCCIONES ASIGNACION
 
 //INICIO PRODUCCIONES OPERACIONLOGICA
-OperacionLogica ::= ExpresionLogica OperadorComparacion ExpresionLogica
-                | OperadorComparacion ExpresionLogica
-			    ;
+OperacionLogica ::=             ExpresionLogica OperadorComparacion ExpresionLogica
+                                | OperadorComparacion ExpresionLogica
+			                    ;
 
-ExpresionLogica ::= ID
-			    | Literal
-			    ;
+ExpresionLogica ::=             ID
+			                    | Literal
+			                    ;
 
-OperadorComparacion ::=  IGUAL
-			    | DESIGUAL
-			    | MAYOR
-			    | MENOR
-			    | MEN_IG
-			    | MAY_IG
-                | NOT
-                | OperadorLogico
-			    ;
-Expresion ::= Literal
-			| R_VAR
-			| Operacion
-			| OperacionLogica
-			| funcProc
-			;
+OperadorComparacion ::=         IGUAL
+			                    | DESIGUAL
+			                    | MAYOR
+			                    | MENOR
+			                    | MEN_IG
+			                    | MAY_IG
+                                | NOT
+                                | OperadorLogico
+			                    ;
 
-Booleano ::= FALSO
-	        | VERDADERO
-	        ;
+Expresion ::=                   Literal
+			                    | R_VAR
+			                    | Operacion
+			                    | OperacionLogica
+			                    | funcProc
+			                    ;
 
-OperadorLogico ::= AND
-		        |  OR
-		        ;
+Booleano ::=                    FALSO
+	                            | VERDADERO
+	                            ;
+
+OperadorLogico ::=              AND
+		                        | OR
+		                        ;
 //FIN PRODUCCIONES OPERACIONLOGICA
 
 //INICIO PRODUCCIONES SIENTONCESSINO
-SI ::= R_SI REGLA_SINO R_ENTONCES SENTENCIA
-    | R_SI REGLA_SINO R_ENTONCES R_FIN SENTENCIA R_FIN
-    ;
+SI ::=                          R_SI REGLA_SINO R_ENTONCES SENTENCIA
+                                | R_SI REGLA_SINO R_ENTONCES R_FIN SENTENCIA R_FIN
+                                ;
 
-SISINO ::= R_SI REGLA_SINO R_ENTONCES SENTENCIA R_SINO SENTENCIA
-        | R_SI REGLA_SINO R_ENTONCES SENTENCIA R_SINO R_INICIO SENTENCIA R_FIN
-        ;
+SISINO ::=                      R_SI REGLA_SINO R_ENTONCES SENTENCIA R_SINO SENTENCIA
+                                | R_SI REGLA_SINO R_ENTONCES SENTENCIA R_SINO R_INICIO SENTENCIA R_FIN
+                                ;
 
-REGLA_SINO ::= ID
-            | OperacionLogica
-            ;
+REGLA_SINO ::=                  ID
+                                | OperacionLogica
+                                ;
 
-SENTENCIA ::= instrucciones
-    | SISINO 
-    ;
+DEVOLVER ::=                    R_DEVOLVER Literal R_COMO TIPO_D
+                                | R_DEVOLVER
+                                ;
+
+SENTENCIA ::=                   instrucciones
+                                | DEVOLVER
+                                | SISINO 
+                                ;
 //FIN PRODUCCIONES SIENTONCESSINO
 
+//INICIO PRODUCCIONES BUCLEMIENTRAS
+BucleMientras ::=               R_MIENTRAS OperacionLogica BloqueInstruccionesMientras
+                                | R_MIENTRAS Booleano BloqueInstruccionesMientras
+                                ;
+
+BloqueInstruccionesMientras ::= R_INICIO DOSPUNTOS instruccionesMientras R_FIN DOSPUNTOS
+                                | instruccionMientrasSimple
+                                ;
+
+instruccionesMientras ::=       instruccionMientrasSimple
+                                | instruccionMientrasSimple instruccionesMientras
+                                | R_ROMPER
+                                ;
+
+instruccionMientrasSimple ::=   ID Asignacion 
+                                | funcProc
+                                | Operacion
+                                ;
+//FIN PRODUCCIONES BUCLEMIENTRAS
+
+//INICIO PRODUCCIONES BUCLEPARA
+BuclePara ::=                   R_PARA ID Asignacion COMA OperacionLogica COMA Operacion BloqueInstruccionesPara
+                                | R_PARA ID COMA OperacionLogica COMA Operacion BloqueInstruccionesPara
+                                ;
+
+BloqueInstruccionesPara ::=     R_INICIO DOSPUNTOS instruccionesPara R_FIN DOSPUNTOS
+                                | instruccionParaSimple
+                                ;
+
+instruccionesPara::=            instruccionParaSimple
+                                | instruccionParaSimple instruccionesPara
+                                | R_ROMPER
+                                ;
+
+instruccionParaSimple ::=       ID Asignacion 
+                                | funcProc
+                                | Operacion
+                                ;
+//FIN PRODUCCIONES BUCLEPARA
+
 //INICIO PRODUCCIONES BLOQUE VARIABLES
-bloqvars ::= R_VARS DOSPUNTOS D_VAR;
+bloqvars ::=                    R_VARS DOSPUNTOS D_VAR;
 
-D_VAR ::=  R_VAR ID TIPO_D
-        | D_VAR R_VAR ID TIPO_D
-        ;
+D_VAR ::=                       R_VAR ID TIPO_D
+                                | D_VAR R_VAR ID TIPO_D
+                                ;
 
-TIPO_D ::= R_ENTERO 
-        |R_TEXTO
-        |R_FECHAHORA
-        |R_FECHA
-        |R_CURP
-        |R_HORA
-        ;
+TIPO_D ::=                      R_ENTERO 
+                                | R_TEXTO
+                                | R_FECHAHORA
+                                | R_FECHA
+                                | R_CURP
+                                | R_HORA
+                                | R_DECIMAL
+                                | R_SIMBOLO
+                                | R_LOGICO
+                                | R_RFC
+                                ;
 //FIN PRODUCCIONES BLOQUE VARIABLES
 
 //INICIO PRODUCCIONES BLOQUE PRINCIPAL
-bloqPrin ::= R_PRINCIPAL DOSPUNTOS bloqInstrucciones
-            | error;
+bloqPrin ::=                    R_PRINCIPAL DOSPUNTOS bloqInstrucciones
+                                | error
+                                ;
 
-bloqInstrucciones ::= R_INICIO PUNTO instrucciones R_FIN PUNTO | error;
+bloqInstrucciones ::=           R_INICIO PUNTO instrucciones R_FIN PUNTO
+                                | error
+                                ;
 
-instrucciones ::= instruccionSimple
-                | instruccionSimple instrucciones
-                ;
+instrucciones ::=               instruccionSimple
+                                | instruccionSimple instrucciones
+                                ;
 
-instruccionSimple ::= ID Asignacion 
-                    | funcProc
-                    | Operacion
-                    ;
+instruccionSimple ::=           ID Asignacion 
+                                | funcProc
+                                | Operacion
+                                | BucleMientras
+                                | BuclePara
+                                ;
 //FIN PRODUCCIONES BLOQUE PRINCIPAL
 
+//INICIO PRODUCCIONES BLOQUE FUNCIONES
+bloqFunc ::=                    R_FUNCS DOSPUNTOS declarFunc
+                                | error
+                                ;
+
+declarFunc ::=                  R_FUNC funcProc R_INICIO DOSPUNTOS instruccionesFunc R_FIN DOSPUNTOS
+                                | R_FUNC funcProc instruccionesFunc
+                                | R_FUNC funcProc R_INICIO DOSPUNTOS instruccionesFunc R_FIN DOSPUNTOS declarFunc
+                                | R_FUNC funcProc instruccionesFunc declarFunc
+                                | R_FUNC funcProc instruccionSimpleFunc
+                                | R_FUNC funcProc instruccionSimpleFunc declarFunc
+                                | R_FUNC funcProc R_INICIO DOSPUNTOS instruccionSimpleFunc R_FIN DOSPUNTOS
+                                | R_FUNC funcProc R_INICIO DOSPUNTOS instruccionSimpleFunc R_FIN DOSPUNTOS declarFunc
+                                | R_FUNC ID instruccionSimpleFunc
+                                | R_FUNC ID instruccionSimpleFunc declarFunc
+                                | R_FUNC ID R_INICIO DOSPUNTOS instruccionSimpleFunc R_FIN DOSPUNTOS
+                                | R_FUNC ID R_INICIO instruccionSimpleFunc R_FIN DOSPUNTOS declarFunc
+                                ;
+
+instruccionesFunc ::=           instruccionSINOfunc
+                                | instruccionSINOfunc instruccionesFunc
+                                ;
+
+instruccionSimpleFunc ::=       funcProc R_DEVOLVER OperacionLogica R_COMO TIPO_D
+                                | funcProc R_DEVOLVER OperacionLogica R_COMO TIPO_D instruccionSimpleFunc
+                                | funcProc R_DEVOLVER
+                                | funcProc R_DEVOLVER instruccionSimpleFunc
+                                | R_DEVOLVER OperacionLogica R_COMO TIPO_D
+                                | R_DEVOLVER OperacionLogica R_COMO TIPO_D instruccionSimpleFunc
+                                ;
+
+instruccionSINOfunc ::=         SI
+                                | SISINO
+                                ;
+//FIN PRODUCCIONES BLOQUE FUNCIONES
+
 //INICIO PRODUCCIONES BLOQUE PROCEDIMIENTOS
-bloqProc ::= R_PROCS DOSPUNTOS declarProc
-            | error;
+bloqProc ::=                    R_PROCS DOSPUNTOS declarProc
+                                | error
+                                ;
 
 
-declarProc ::= R_PROC funcProc R_INICIO DOSPUNTOS instruccionesProc R_FIN DOSPUNTOS
-            | R_PROC funcProc instruccionesProc
-            | R_PROC funcProc R_INICIO DOSPUNTOS instruccionesProc R_FIN DOSPUNTOS declarProc
-            | R_PROC funcProc instruccionesProc declarProc
-            | R_PROC funcProc instruccionSimpleProc
-            | R_PROC funcProc instruccionSimpleProc declarProc
-            | R_PROC ID instruccionSimpleProc
-            | R_PROC ID instruccionSimpleProc declarProc
-            ;
+declarProc ::=                  R_PROC funcProc R_INICIO DOSPUNTOS instruccionesProc R_FIN DOSPUNTOS
+                                | R_PROC funcProc instruccionesProc
+                                | R_PROC funcProc R_INICIO DOSPUNTOS instruccionesProc R_FIN DOSPUNTOS declarProc
+                                | R_PROC funcProc instruccionesProc declarProc
+                                | R_PROC funcProc instruccionSimpleProc
+                                | R_PROC funcProc instruccionSimpleProc declarProc
+                                | R_PROC ID instruccionSimpleProc
+                                | R_PROC ID instruccionSimpleProc declarProc
+                                ;
 
-instruccionesProc ::= instruccionSINOproc
-                | instruccionSINOproc instruccionesProc
-                ;
+instruccionesProc ::=           instruccionSINOproc
+                                | instruccionSINOproc instruccionesProc
+                                ;
 
-instruccionSimpleProc ::= funcProc
-                        | funcProc instruccionSimpleProc
-                        ;
+instruccionSimpleProc ::=       funcProc
+                                | funcProc instruccionSimpleProc
+                                ;
 
-instruccionSINOproc ::= SI
-                    | SISINO
-                    ;
+instruccionSINOproc ::=         SI
+                                | SISINO
+                                ;
 //FIN PRODUCCIONES BLOQUE PROCEDIMIENTOS
+//FIN PRODUCCIONES
