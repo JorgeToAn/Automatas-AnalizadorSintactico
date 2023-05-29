@@ -3,6 +3,7 @@ variables :
 	variable nombre texto
 	variable fecha_nac fecha-hora
 	variable mi_curp curp
+
 codigo-principal :
 	inicio .
 		edad = 25
@@ -10,20 +11,81 @@ codigo-principal :
 		fecha_nac = 1998-02-20T13:00:00
 		mi_curp = JUSA980220HBCNLRA9
 		validar_edad ( mensaje , edad )
+		100 + 1
+		0.23 - 42.5
+		Texto_1 = "Aperture" + " " + "Laboratories"
+		Texto_2 = nombre + " " + apellido
+		Logico_1 = edad > 17
+		Logico_2 = miNum == 20	
+		Logico_3 = ~ valido
+		Logico_4 = mayorEdad _Y_ responsable
+		Logico_5 = persona1 != persona2
+
+		mientras contador < 10
+			inicio :
+				imprimir ( contador )
+				contador ++
+			fin :
+
+		mientras timer >= 0
+			imprimir ( timer -- )
+
+		mientras verdadero
+			imprimir ( "Bucle infinito")
+
+		mientras verdadero
+			inicio :
+				imprimir ( "Se imprime una vez y rompe el bucle" )
+				romper
+			fin :
+
+		para contador = 0 , contador < 100 , contador ++
+			imprimir ( contador )
+
+		para contador , contador < 5 , contador ++
+			inicio :
+				resultado = resultado + ( resultado * contador )
+				imprimir ( resultado )
+			fin :
+
+		para contador = 0 , contador == contador , contador ++
+			inicio : 
+				imprimir ( "Se imprime una vez y se rompe el ciclo" )
+				romper
+			fin :
 	fin .
+
 funciones :
-	funcion saludar ( nombre )
+	funcion validarAdulto ( edad )
 		inicio :
-			imprimir ( "Hola, " + nombre )
+			si edad >= 18 entonces
+				devolver verdadero como logico
+			sino
+				devolver falso como logico
+		fin :
+
+	funcion validarAdulto ( edad )
+		devolver edad >= 18 como logico
+
+	funcion imprimirLinea ( )
+		inicio :
+			imprimir ( "\n" )
 			devolver
 		fin :
+
 procedimientos :
 	procedimiento validar_edad ( mensaje , edad )
 		inicio :
-			# Esto es un comentario:
-			si edad > 18 entonces
+		# Esto es un comentario:
+		si edad > 18 entonces
 			imprimir ( "Eres mayor de edad" )
-			sino
+		sino
 			imprimir ( "Eres menor de edad" )
 			saludar ( nombre )
 		fin :
+
+	procedimiento saludar ( nombre )
+		imprimir ( "Hola " + nombre )
+
+	procedimiento imprimirError
+		imprimir ( "ERROR EN PROGRAMA" )
