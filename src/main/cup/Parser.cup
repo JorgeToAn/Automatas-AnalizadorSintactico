@@ -121,7 +121,7 @@ precedence left MUL, DIV, MOD;
 
 //INICIO PRODUCCIONES
 //INICIO PRODUCCIONES PROGRAMA
-programa ::=                    bloqvars bloqPrin bloqFunc bloqProc
+programa ::=                    bloqvars bloqPrin bloqFunc bloqProc {: System.out.println("Se termino de leer el programa"); :}
                                 | error
                                 ;
 //FIN PRODUCCIONES PROGRAMA
